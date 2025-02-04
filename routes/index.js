@@ -4,10 +4,26 @@ const uploadFileMiddleware = require("../middleware/uploadFile.middleware");
 const Servicio = require("../controllers/servicios.controller");
 const BlogController = require("../controllers/blog.controller");
 const sendMail = require("../controllers/sendEmail.controller");
+const loginController = require("../controllers/login.controller");
+const userController = require("../controllers/user.controller");
+const roleController = require("../controllers/role.controller");
 
 function allRoutes(app) {
   const router = require("express").Router();
   // POST
+  router.post("/token", loginController.loginUser);
+  router.post("/crear-role", roleController.createRole);
+  router.get("/find-role", roleController.getRoles);
+
+  /*
+    User Management Routes
+  */
+  router.post(
+    "/crear",
+    // tokenMiddleware,
+    // roleMiddleware,
+    userController.createUser
+  );
 
   router.post(
     "/crear-data",

@@ -2,10 +2,11 @@ const Servicios = require("../models/servicios.model");
 
 const createServicio = async (req, res) => {
   try {
-    await Servicios.create(req.body);
-    res.json({ msg: "Servicio creado exitosamente!" });
+    const { nombre, descripcion } = req.body; // No recibas 'id'
+    const nuevoServicio = await Servicios.create({ nombre, descripcion }); // Sequelize generará el ID automáticamente
+    res.status(201).json(nuevoServicio);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -20,10 +21,16 @@ const getServicios = async (req, res) => {
 const updateServicio = async (req, res) => {
   try {
     const { id } = req.params;
-    await Servicios.update(req.body, { where: { id } });
-    res.json({ msg: "Servicio actualizado exitosamente!" });
+    const [updated] = await Servicios.update(req.body, { where: { id } });
+
+    if (updated) {
+      res.json({ msg: "Servicio actualizado exitosamente!" });
+    } else {
+      res.status(404).json({ msg: "Servicio no encontrado" });
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ msg: "Error actualizando el servicio" });
   }
 };
 
