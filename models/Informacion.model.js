@@ -68,7 +68,7 @@ const Informacion = sequelize.define("Informacion", {
     allowNull: true,
   },
   resena: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(500),
     allowNull: true,
   },
 });
