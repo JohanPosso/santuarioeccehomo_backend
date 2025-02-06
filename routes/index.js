@@ -1,3 +1,4 @@
+const express = require("express");
 const InformacionController = require("../controllers/informacion.controller");
 const PersonalController = require("../controllers/personal.controller");
 const uploadFileMiddleware = require("../middleware/uploadFile.middleware");
@@ -9,25 +10,23 @@ const userController = require("../controllers/user.controller");
 const roleController = require("../controllers/role.controller");
 
 function allRoutes(app) {
-  const router = require("express").Router();
-  // POST
+  const router = express.Router();
+
+  // 🟢 Autenticación y roles
   router.post("/token", loginController.loginUser);
   router.post("/crear-role", roleController.createRole);
   router.get("/find-role", roleController.getRoles);
 
-  /*
-    User Management Routes
-  */
-  router.post(
-    "/crear",
-    // tokenMiddleware,
-    // roleMiddleware,
-    userController.createUser
-  );
+  // 🟢 Gestión de usuarios
+  router.post("/crear", userController.createUser);
+  router.get("/get-usuarios", userController.verUsers);
+  router.delete("/delete-usuarios/:id", userController.deleteUser);
+  router.put("/edit-usuarios/:id", userController.editUser);
 
+  // 🟢 Rutas con subida de archivos
   router.post(
     "/crear-data",
-    // uploadFileMiddleware.array("images", 2),
+    uploadFileMiddleware.array("image", 3),
     InformacionController.createInformacion
   );
   router.post(
@@ -36,24 +35,31 @@ function allRoutes(app) {
     PersonalController.createPersonal
   );
   router.post("/crear-servicio", Servicio.createServicio);
-
   router.post(
     "/createblog",
     uploadFileMiddleware.single("image"),
     BlogController.createBlog
   );
+
+  // 🟢 Otras rutas
   router.post("/sendmail", sendMail);
-  // GET
+
+  // 🟢 Rutas GET
   router.get("/find-data", InformacionController.getInformacion);
   router.get("/find-personal", PersonalController.getPersonal);
   router.get("/image/:filename", PersonalController.getImage);
   router.get("/find-servicio", Servicio.getServicios);
   router.get("/findblog", BlogController.getBlog);
   router.get("/findblog/:id", BlogController.getBlogById);
-  //PUT
+
+  // 🟢 Rutas PUT
   router.put(
     "/edit-data",
-    // uploadFileMiddleware.array("images", 1),
+    uploadFileMiddleware.fields([
+      { name: "logo", maxCount: 1 },
+      { name: "imagen_sec1", maxCount: 1 },
+      { name: "imagen_sec2", maxCount: 1 },
+    ]),
     InformacionController.editeInformacion
   );
   router.put("/update-servicio/:id", Servicio.updateServicio);
@@ -62,7 +68,8 @@ function allRoutes(app) {
     uploadFileMiddleware.single("image"),
     BlogController.editBlog
   );
-  // DELETE
+
+  // 🟢 Rutas DELETE
   router.delete("/delete-servicio/:id", Servicio.deleteServicio);
   router.delete("/deleteblog/:id", BlogController.deleteBlog);
 

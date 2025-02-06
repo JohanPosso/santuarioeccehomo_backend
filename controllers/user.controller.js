@@ -31,7 +31,7 @@ roles:
     });
 };
 
-const saludo = async (req, res) => {
+const verUsers = async (req, res) => {
   const todo = await User.findAll()
     .then((todo) => {
       res.json(todo);
@@ -58,9 +58,9 @@ const deleteUser = async (req, res) => {
 const editUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, RoleIdRole = 2, password } = req.body;
+    const { name, lastname, email, RoleIdRole = 2, password } = req.body;
     const response = await User.update(
-      { name, email, RoleIdRole, password },
+      { name, email, lastname, RoleIdRole, password },
       {
         where: {
           id,
@@ -73,4 +73,4 @@ const editUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser, saludo, deleteUser, editUser };
+module.exports = { createUser, verUsers, deleteUser, editUser };

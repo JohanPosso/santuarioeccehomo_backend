@@ -71,6 +71,8 @@ const Informacion = sequelize.define("Informacion", {
     type: DataTypes.STRING(500),
     allowNull: true,
   },
+  imagen_sec1: { type: DataTypes.STRING, allowNull: true },
+  imagen_sec2: { type: DataTypes.STRING, allowNull: true },
 });
 
 module.exports = Informacion;

@@ -1,24 +1,14 @@
 const multer = require("multer");
 
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Directorio de destino donde se guardarán los archivos
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname); // Nombrar el archivo
   },
 });
 
-const upload = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    const allowedMimes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
-    if (allowedMimes.includes(file.mimetype)) {
-      cb(null, true);
-    } else {
-      cb(new Error("Tipo de archivo inválido"));
-    }
-  },
-});
+const upload = multer({ storage: storage });
 
 module.exports = upload;
