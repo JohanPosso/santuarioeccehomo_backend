@@ -1,18 +1,10 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/db");
-const Personal = sequelize.define("Personal", {
+const Galeria = sequelize.define("Galeria", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
-  },
-  nombre: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  ocupacion: {
-    type: DataTypes.STRING,
-    allowNull: true,
   },
   imagen: {
     type: DataTypes.STRING,
@@ -20,4 +12,4 @@ const Personal = sequelize.define("Personal", {
   },
 });
 
-module.exports = Personal;
+module.exports = Galeria;

@@ -15,5 +15,5 @@ if (env === "develop") {
 }
 console.info(`Environment  *** ${env} ***`);
 
-// sequelize.sync({ alter: true });
+sequelize.sync({ alter: true });
 module.exports = sequelize;

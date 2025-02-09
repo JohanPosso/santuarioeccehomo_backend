@@ -3,7 +3,7 @@ const Blog = require("../models/blog.model");
 // Crear un nuevo blog
 const createBlog = async (req, res) => {
   try {
-    const { name, description, active, link } = req.body;
+    const { name, description, link } = req.body;
     // Obtenemos la URL o el nombre del archivo de la imagen subida a S3
     const image = req.file?.location || req.file?.key; // Usamos `location` para la URL directa desde S3
 
@@ -17,7 +17,6 @@ const createBlog = async (req, res) => {
       name,
       description,
       image,
-      active,
       link,
     });
 
@@ -76,7 +75,7 @@ const deleteBlog = async (req, res) => {
 const editBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, active, link } = req.body;
+    const { name, description, link } = req.body;
     const image = req.file?.location || req.file?.key; // Usamos `location` para la URL directa desde S3
 
     const blog = await Blog.findByPk(id);
@@ -85,7 +84,6 @@ const editBlog = async (req, res) => {
         name,
         description,
         image,
-        active,
         link,
       });
       res.json({ msg: "Blog actualizado exitosamente!" });

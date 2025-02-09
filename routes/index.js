@@ -1,6 +1,6 @@
 const express = require("express");
 const InformacionController = require("../controllers/informacion.controller");
-const PersonalController = require("../controllers/personal.controller");
+const GaleriaController = require("../controllers/galeria.controller");
 const uploadFileMiddleware = require("../middleware/uploadFile.middleware");
 const Servicio = require("../controllers/servicios.controller");
 const BlogController = require("../controllers/blog.controller");
@@ -30,9 +30,9 @@ function allRoutes(app) {
     InformacionController.createInformacion
   );
   router.post(
-    "/crear-personal",
+    "/subir-foto",
     uploadFileMiddleware.single("image"),
-    PersonalController.createPersonal
+    GaleriaController.uploadGaleria
   );
   router.post("/crear-servicio", Servicio.createServicio);
   router.post(
@@ -46,8 +46,7 @@ function allRoutes(app) {
 
   // 🟢 Rutas GET
   router.get("/find-data", InformacionController.getInformacion);
-  router.get("/find-personal", PersonalController.getPersonal);
-  router.get("/image/:filename", PersonalController.getImage);
+  router.get("/find-galeria", GaleriaController.getGaleria);
   router.get("/find-servicio", Servicio.getServicios);
   router.get("/findblog", BlogController.getBlog);
   router.get("/findblog/:id", BlogController.getBlogById);
