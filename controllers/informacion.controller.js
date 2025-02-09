@@ -2,9 +2,16 @@ const Informacion = require("../models/Informacion.model");
 
 const createInformacion = async (req, res) => {
   try {
-    const logo = req.files[0] ? req.files[0].filename : null;
-    const imagen_sec1 = req.files[1] ? req.files[1].filename : null;
-    const imagen_sec2 = req.files[2] ? req.files[2].filename : null;
+    const files = req.files || [];
+
+    // Obtenemos las imágenes y los logos subidos
+    const logo = files[0] ? files[0].location || files[0].filename : null;
+    const imagen_sec1 = files[1]
+      ? files[1].location || files[1].filename
+      : null;
+    const imagen_sec2 = files[2]
+      ? files[2].location || files[2].filename
+      : null;
 
     const {
       seccion_1titulo,
@@ -47,7 +54,7 @@ const createInformacion = async (req, res) => {
 
     res.json({ msg: "Información creada exitosamente!" });
   } catch (error) {
-    console.log(error);
+    console.error("Error al crear la información:", error);
     res.status(500).json({ msg: "Error al crear la información" });
   }
 };
@@ -57,7 +64,8 @@ const getInformacion = async (req, res) => {
     const informacion = await Informacion.findAll();
     res.json(informacion);
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener la información:", error);
+    res.status(500).json({ msg: "Error al obtener la información" });
   }
 };
 
@@ -85,12 +93,14 @@ const editeInformacion = async (req, res) => {
     } = req.body;
 
     const files = req.files || {};
-    const logo = files.logo ? files.logo[0].filename : null;
+    const logo = files.logo
+      ? files.logo[0].location || files.logo[0].filename
+      : null;
     const imagen_sec1 = files.imagen_sec1
-      ? files.imagen_sec1[0].filename
+      ? files.imagen_sec1[0].location || files.imagen_sec1[0].filename
       : null;
     const imagen_sec2 = files.imagen_sec2
-      ? files.imagen_sec2[0].filename
+      ? files.imagen_sec2[0].location || files.imagen_sec2[0].filename
       : null;
 
     // Encuentra la información actual para poder actualizarla
@@ -132,4 +142,5 @@ const editeInformacion = async (req, res) => {
     return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
+
 module.exports = { createInformacion, getInformacion, editeInformacion };
