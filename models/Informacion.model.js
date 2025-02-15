@@ -35,15 +35,15 @@ const Informacion = sequelize.define("Informacion", {
     allowNull: true,
   },
   mision: {
-    type: DataTypes.STRING(500),
+    type: DataTypes.TEXT("medium"),
     allowNull: true,
   },
   vision: {
-    type: DataTypes.STRING(500),
+    type: DataTypes.TEXT("medium"),
     allowNull: true,
   },
   sobrenosotros: {
-    type: DataTypes.STRING(800),
+    type: DataTypes.TEXT("medium"),
 
     allowNull: true,
   },
@@ -68,7 +68,7 @@ const Informacion = sequelize.define("Informacion", {
     allowNull: true,
   },
   resena: {
-    type: DataTypes.STRING(500),
+    type: DataTypes.TEXT("medium"),
     allowNull: true,
   },
   imagen_sec1: { type: DataTypes.STRING, allowNull: true },
